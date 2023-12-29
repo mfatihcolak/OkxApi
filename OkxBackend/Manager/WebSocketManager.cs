@@ -1,4 +1,6 @@
-﻿using System.Net.WebSockets;
+﻿using Microsoft.AspNetCore.SignalR;
+using OkxBackend.Hubs;
+using System.Net.WebSockets;
 using System.Text;
 
 namespace OkxBackend.Manager
@@ -7,12 +9,14 @@ namespace OkxBackend.Manager
     {
         private readonly ClientWebSocket _webSocket;
         private readonly CancellationTokenSource _cancellationTokenSource;
-        private readonly string _okxWebSocketUrl = "wss://wspap.okx.com:8443/ws/v5/public?brokerId=9999\r\n";
+        private readonly string _okxWebSocketUrl = "wss://wspap.okx.com:8443/ws/v5/public?brokerId=9999";
+        private readonly IHubContext<CoinInfo> _hubContext;
 
-        public WebSocketManager()
+        public WebSocketManager(IHubContext<CoinInfo> hubContext)
         {
             _webSocket = new ClientWebSocket();
             _cancellationTokenSource = new CancellationTokenSource();
+            _hubContext = hubContext;
         }
 
         public async Task ConnectAndReceiveData(string message)
@@ -24,13 +28,12 @@ namespace OkxBackend.Manager
                 while (_webSocket.State == WebSocketState.Open)
                 {
                     await SendMessageAsync(message);
-                    // Alınan verileri işleyerek React uygulamasına gönderme
                     await ReceiveMessageLoop();
                 }
             }
             catch (Exception ex)
             {
-                // Hata yönetimi burada yapılabilir
+
             }
         }
 
@@ -41,13 +44,10 @@ namespace OkxBackend.Manager
 
             while (!result.EndOfMessage)
             {
-                // Veri alımı işlemleri burada yapılabilir
                 result = await _webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), _cancellationTokenSource.Token);
             }
 
-            // Gelen verileri işleyip React uygulamasına gönderme işlemleri burada yapılabilir
             string receivedData = Encoding.UTF8.GetString(buffer);
-            // React uygulamasına gönderme işlemi burada gerçekleştirilebilir
         }
 
         public async Task Disconnect()
@@ -79,8 +79,9 @@ namespace OkxBackend.Manager
                 if (result.MessageType == WebSocketMessageType.Text)
                 {
                     var message = Encoding.UTF8.GetString(buffer, 0, result.Count);
-                    Console.WriteLine("Received message: " + message);
-                    // Burada gelen mesajı işleyebilirsiniz
+                    Console.WriteLine(message);
+
+                    await _hubContext.Clients.All.SendAsync("ReceiveMessage", message);
                 }
                 else if (result.MessageType == WebSocketMessageType.Close)
                 {

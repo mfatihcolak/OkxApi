@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OkxBackend", "OkxBackend\OkxBackend.csproj", "{2855A518-B92F-46C6-AF2C-2F5C129A7DA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OkxBackend", "OkxBackend\OkxBackend.csproj", "{2855A518-B92F-46C6-AF2C-2F5C129A7DA2}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{29C4FEE2-20AD-4877-B7C7-C176AD360388}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{2855A518-B92F-46C6-AF2C-2F5C129A7DA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2855A518-B92F-46C6-AF2C-2F5C129A7DA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2855A518-B92F-46C6-AF2C-2F5C129A7DA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29C4FEE2-20AD-4877-B7C7-C176AD360388}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29C4FEE2-20AD-4877-B7C7-C176AD360388}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29C4FEE2-20AD-4877-B7C7-C176AD360388}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29C4FEE2-20AD-4877-B7C7-C176AD360388}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
